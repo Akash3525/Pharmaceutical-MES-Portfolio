@@ -276,9 +276,9 @@ def page_traceability():
 
 def page_signals():
     st.header("Process Signals (simulated)")
-    st.caption("Values come from a Python simulator using DeltaV-style tag names. There is no connection to a "
-               "real DCS, OPC UA server or historian.")
-    batch_id = batch_picker(("DISPENSING", "IN_PROGRESS", "COMPLETED", "RELEASED", "REJECTED"), "sig_batch")
+    st.caption("Values come from a Python simulator using DeltaV-style tag names, published over OPC UA by "
+               "opcua_server.py. No real DCS or historian is involved.")
+    batch_id = batch_picker(("CREATED", "DISPENSING", "IN_PROGRESS", "COMPLETED", "RELEASED", "REJECTED"), "sig_batch")
     if batch_id is None:
         return
     st.dataframe(df("SELECT tag, description, unit, low_limit, high_limit FROM tag_limits ORDER BY tag"),
