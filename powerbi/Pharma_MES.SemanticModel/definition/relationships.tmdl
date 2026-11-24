@@ -1,0 +1,43 @@
+relationship 76040d57-c957-44e0-b209-90a82ecae413
+	fromColumn: Exceptions.batch_no
+	toColumn: BatchProgress.batch_no
+
+relationship 2bf36957-97ff-45ae-9a0a-c4386ea72c39
+	fromColumn: Genealogy.batch_no
+	toColumn: BatchProgress.batch_no
+
+relationship 73bc61e2-9126-49f4-8f14-7abff5a7847f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: BatchProgress.created_at
+	toColumn: LocalDateTable_23917f67-da6a-4b9a-94f7-d644671801b2.Date
+
+relationship c42eb37d-398c-4910-a34a-73458dc917db
+	joinOnDateBehavior: datePartOnly
+	fromColumn: BatchProgress.started_at
+	toColumn: LocalDateTable_d9de22d2-7ac8-4e1a-88aa-ef6cbbc700e6.Date
+
+relationship 1349f82b-8bb3-4c29-aed0-99e9faa54f56
+	joinOnDateBehavior: datePartOnly
+	fromColumn: BatchProgress.completed_at
+	toColumn: LocalDateTable_2df2ab25-83b0-4ce3-b24c-d6fd5bb80c5e.Date
+
+relationship c3c653ff-38a3-42c3-a6fc-4d386c2e0082
+	joinOnDateBehavior: datePartOnly
+	fromColumn: BatchProgress.disposition_at
+	toColumn: LocalDateTable_d8369eba-4a76-4ab9-aaf6-3a13eda4c702.Date
+
+relationship eb014201-1d58-46df-9284-e9536f91b31d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Exceptions.occurred_at
+	toColumn: LocalDateTable_8db8728e-5dfc-4131-9e53-0c24e72b1e5f.Date
+
+relationship 19387478-5842-4705-becb-5f3baf9babc0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Genealogy.expiry_date
+	toColumn: LocalDateTable_789de5c9-389d-487d-9d12-7459ba2d8b67.Date
+
+relationship 33554e75-9d97-4038-9204-5c0ed1bb7acd
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Genealogy.dispensed_at
+	toColumn: LocalDateTable_6b6ec764-a836-4cf3-9ea0-a8741126e9af.Date
+

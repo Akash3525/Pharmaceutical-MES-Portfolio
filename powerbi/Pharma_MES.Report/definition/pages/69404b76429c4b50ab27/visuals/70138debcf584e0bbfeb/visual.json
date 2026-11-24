@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
+  "name": "70138debcf584e0bbfeb",
+  "position": {
+    "x": 650,
+    "y": 110,
+    "z": 3,
+    "height": 160,
+    "width": 290,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BatchProgress"
+                    }
+                  },
+                  "Property": "Awaiting QA"
+                }
+              },
+              "queryRef": "BatchProgress.Awaiting QA",
+              "nativeQueryRef": "Awaiting QA"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

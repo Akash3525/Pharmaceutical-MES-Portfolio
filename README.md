@@ -55,13 +55,15 @@ Pharmaceutical_MES/
   mes.py         thin write helpers shared by app, seed and tests
   seed.py        creates the database and loads the sample data
   simulator.py   DeltaV-style process signal simulator
+  export_powerbi.py  exports the reporting views to powerbi/data/*.csv
   db.py          connection settings (MES_DB_* variables)
+powerbi/         Power BI report (.pbix), Power BI Project (.pbip) and CSV data
 Testing/
   test_gmp_rules.py   17 tests, one or more per rule
 docs/
   Architecture.md     rule map, batch lifecycle, design decisions
   Tulip_App_Design.md design spec (not built)
-  PowerBI_Guide.md    dashboard plan and DAX (not built)
+  PowerBI_Guide.md    dashboard measures and layout
 ```
 
 ## Run it
@@ -87,9 +89,29 @@ python Pharmaceutical_MES/simulator.py PCM-500-0007 --minutes 30 --excursion
 
 **Windows note:** if the `psycopg-binary` DLL is blocked (for example by Smart App Control), set `PSYCOPG_IMPL=python` in `.env`. `db.py` then uses `libpq.dll` from the local PostgreSQL install.
 
+## Power BI dashboard
+
+`powerbi/Pharma_MES.pbix` is a three-page report on the three reporting views. The same report is also saved as a Power BI Project (`Pharma_MES.pbip`), whose files are readable in a git diff. It reads CSV exports of the views, so opening it needs no database password. To refresh the data, run:
+
+```bash
+python Pharmaceutical_MES/export_powerbi.py   # writes powerbi/data/*.csv
+```
+
+Then click **Refresh** in Power BI.
+
+**Batch Status**: KPIs (released, awaiting QA, open deviations, right-first-time, average release time) and progress per batch
+![Batch Status page](docs/img/powerbi_batch_status.jpg)
+
+**Review by Exception**: exceptions per batch and their details
+![Review by Exception page](docs/img/powerbi_review_by_exception.jpg)
+
+**Traceability**: lot-to-batch genealogy with lot and batch slicers
+![Traceability page](docs/img/powerbi_traceability.jpg)
+
+The data source paths point to `C:\GitHub\Pharmaceutical-MES-Portfolio\powerbi\data\`. If you clone the repository somewhere else, change them in **Transform data → Data source settings**.
+
 ## Not built yet
 
-- **Power BI dashboard**: connect to `v_batch_progress`, `v_review_by_exception` and `v_genealogy`. See the [Power BI Guide](docs/PowerBI_Guide.md).
 - **Tulip app**: design spec only, see [Tulip App Design](docs/Tulip_App_Design.md). The status is *Planned*.
 - **OPC UA server** for the simulator: not built. Signals are written directly to the database.
 

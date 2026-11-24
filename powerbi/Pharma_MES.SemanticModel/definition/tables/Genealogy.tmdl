@@ -1,0 +1,109 @@
+table Genealogy
+	lineageTag: 1b0a54e5-8c0e-4047-947d-bd70792f04f2
+
+	measure 'Qty Used' = SUM ( Genealogy[qty_used] )
+		formatString: #,0.000
+		lineageTag: 6d402ca9-cea8-4b2d-a50a-a657fee2e9cf
+
+	measure 'Lots Used' = DISTINCTCOUNT ( Genealogy[lot_no] )
+		formatString: 0
+		lineageTag: 8c87189b-fbcc-4734-8b63-d7b139a32c99
+
+	column lot_no
+		dataType: string
+		lineageTag: f4614b61-24e2-4c8e-bd55-48c314a66a91
+		summarizeBy: none
+		sourceColumn: lot_no
+
+	column material_code
+		dataType: string
+		lineageTag: 379bd00c-ce89-462c-a99d-a5d75eaff836
+		summarizeBy: none
+		sourceColumn: material_code
+
+	column material_name
+		dataType: string
+		lineageTag: 59509176-0fa3-4528-afec-1d729bdfeb7a
+		summarizeBy: none
+		sourceColumn: material_name
+
+	column supplier
+		dataType: string
+		lineageTag: ded3f621-93ce-4590-95fb-4651d0e14b1f
+		summarizeBy: none
+		sourceColumn: supplier
+
+	column lot_status
+		dataType: string
+		lineageTag: 15d0d485-65b8-4079-8e33-20339ba532d8
+		summarizeBy: none
+		sourceColumn: lot_status
+
+	column expiry_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: a4fe0996-3c6f-4400-aa27-f65c77481d06
+		summarizeBy: none
+		sourceColumn: expiry_date
+
+		variation Variation
+			isDefault
+			relationship: 19387478-5842-4705-becb-5f3baf9babc0
+			defaultHierarchy: LocalDateTable_789de5c9-389d-487d-9d12-7459ba2d8b67.'Date Hierarchy'
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column batch_no
+		dataType: string
+		lineageTag: bd6ae5d5-33c0-4deb-b906-2b671cbc60a2
+		summarizeBy: none
+		sourceColumn: batch_no
+
+	column product_code
+		dataType: string
+		lineageTag: 544d1e74-c474-4767-9a9e-f27e0e5a6aa8
+		summarizeBy: none
+		sourceColumn: product_code
+
+	column product_name
+		dataType: string
+		lineageTag: 62746c1a-f86c-4263-88c1-16594d50fe07
+		summarizeBy: none
+		sourceColumn: product_name
+
+	column batch_status
+		dataType: string
+		lineageTag: fb68a182-92ae-4dba-b9e9-928e176d1546
+		summarizeBy: none
+		sourceColumn: batch_status
+
+	column qty_used
+		dataType: double
+		lineageTag: 715a74cc-68d1-40d9-8313-44550523baa2
+		summarizeBy: sum
+		sourceColumn: qty_used
+
+	column uom
+		dataType: string
+		lineageTag: 60c9c675-8ec2-4237-b098-c8071c86c50e
+		summarizeBy: none
+		sourceColumn: uom
+
+	column dispensed_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2b939e84-2b3e-4904-b61f-bb31c4b3584a
+		summarizeBy: none
+		sourceColumn: dispensed_at
+
+		variation Variation
+			isDefault
+			relationship: 33554e75-9d97-4038-9204-5c0ed1bb7acd
+			defaultHierarchy: LocalDateTable_6b6ec764-a836-4cf3-9ea0-a8741126e9af.'Date Hierarchy'
+
+	partition Genealogy = m
+		mode: import
+		source = let Source = Csv.Document(File.Contents("C:\GitHub\Pharmaceutical-MES-Portfolio\powerbi\data\genealogy.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]), Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]), Blanks = Table.ReplaceValue(Promoted, "", null, Replacer.ReplaceValue, {}), Typed = Table.TransformColumnTypes(Blanks, {{"lot_no", type text}, {"material_code", type text}, {"material_name", type text}, {"supplier", type text}, {"lot_status", type text}, {"expiry_date", type date}, {"batch_no", type text}, {"product_code", type text}, {"product_name", type text}, {"batch_status", type text}, {"qty_used", type number}, {"uom", type text}, {"dispensed_at", type datetime}}, "en-US") in Typed
+
+	annotation PBI_ResultType = Table
+

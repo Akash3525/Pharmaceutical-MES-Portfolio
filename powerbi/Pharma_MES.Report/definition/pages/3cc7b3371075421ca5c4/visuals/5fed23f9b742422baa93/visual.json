@@ -1,0 +1,61 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
+  "name": "5fed23f9b742422baa93",
+  "position": {
+    "x": 650,
+    "y": 110,
+    "z": 2,
+    "height": 160,
+    "width": 600,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Genealogy"
+                    }
+                  },
+                  "Property": "batch_no"
+                }
+              },
+              "queryRef": "Genealogy.batch_no",
+              "nativeQueryRef": "batch_no",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Batch'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

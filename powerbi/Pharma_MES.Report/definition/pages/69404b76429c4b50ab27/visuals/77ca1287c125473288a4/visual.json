@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
+  "name": "77ca1287c125473288a4",
+  "position": {
+    "x": 340,
+    "y": 110,
+    "z": 2,
+    "height": 160,
+    "width": 290,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BatchProgress"
+                    }
+                  },
+                  "Property": "Released"
+                }
+              },
+              "queryRef": "BatchProgress.Released",
+              "nativeQueryRef": "Released"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

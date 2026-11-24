@@ -1,10 +1,11 @@
-# Power BI Guide (not built yet)
+# Power BI Guide
 
-This repository has no `.pbix` file. Build the dashboard in Power BI Desktop from the three views below, then add screenshots to the README.
+The finished report is `powerbi/Pharma_MES.pbix`. It reads CSV exports of the views below, written by `python Pharmaceutical_MES/export_powerbi.py`.
+This guide explains the model, and how to switch to a live PostgreSQL connection.
 
-## Connect
+## Live connection (optional)
 
-**Get Data → PostgreSQL database**: server `localhost`, database `mes_portfolio`, mode **Import**.
+Instead of the CSVs, use **Get Data → PostgreSQL database**: server `localhost`, database `mes_portfolio`, mode **Import**.
 Select these views:
 
 | View | Use |

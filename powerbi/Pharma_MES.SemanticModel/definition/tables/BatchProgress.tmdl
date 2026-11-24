@@ -1,0 +1,153 @@
+table BatchProgress
+	lineageTag: 6ecf7932-4165-49f3-9147-c91b51fb3d5f
+
+	measure Batches = DISTINCTCOUNT ( BatchProgress[batch_no] )
+		formatString: 0
+		lineageTag: e0f56229-75ed-4a86-a66a-53133c8d9a22
+
+	measure Released = CALCULATE ( [Batches], BatchProgress[status] = "RELEASED" )
+		formatString: 0
+		lineageTag: 002322ba-000c-421b-bf08-76c08f7d890b
+
+	measure 'Awaiting QA' = CALCULATE ( [Batches], BatchProgress[status] = "COMPLETED" )
+		formatString: 0
+		lineageTag: 444cb74a-e6b4-4ad8-b801-75955c2696ba
+
+	measure 'Open Deviations' = SUM ( BatchProgress[open_deviations] )
+		formatString: 0
+		lineageTag: 2ec9abe5-363b-4106-a0a6-fc93794cb8f3
+
+	measure 'Right First Time %' = DIVIDE ( CALCULATE ( [Batches], BatchProgress[total_deviations] = 0, BatchProgress[status] IN { "COMPLETED", "RELEASED" } ), CALCULATE ( [Batches], BatchProgress[status] IN { "COMPLETED", "RELEASED" } ) )
+		formatString: 0.0%
+		lineageTag: 113ea2ab-6f8e-48c5-a734-cf67839e5e74
+
+	measure 'Avg Release Time (h)' = AVERAGEX ( FILTER ( BatchProgress, BatchProgress[status] = "RELEASED" ), DATEDIFF ( BatchProgress[completed_at], BatchProgress[disposition_at], HOUR ) )
+		formatString: 0.0
+		lineageTag: 15cf0a91-e92b-45e9-8b1d-f1aac7d7e793
+
+	column batch_no
+		dataType: string
+		lineageTag: fafe0d04-e5d7-450e-879a-6b631b2bcf6e
+		summarizeBy: none
+		sourceColumn: batch_no
+
+	column product_code
+		dataType: string
+		lineageTag: 05138d18-083f-4c6b-9780-c5c5090e70d8
+		summarizeBy: none
+		sourceColumn: product_code
+
+	column product_name
+		dataType: string
+		lineageTag: a51237d6-8327-47f7-939f-42cf5d30824b
+		summarizeBy: none
+		sourceColumn: product_name
+
+	column recipe_version
+		dataType: int64
+		lineageTag: 3ce4406e-5e32-426c-9f01-d5db66fed0bb
+		summarizeBy: sum
+		sourceColumn: recipe_version
+
+	column status
+		dataType: string
+		lineageTag: 64a3310c-29f7-49af-afae-00f7f07b9f6b
+		summarizeBy: none
+		sourceColumn: status
+
+	column materials_required
+		dataType: int64
+		lineageTag: d105831d-6314-4943-bebe-661a6b3be356
+		summarizeBy: sum
+		sourceColumn: materials_required
+
+	column materials_dispensed
+		dataType: int64
+		lineageTag: 624def95-f930-4a27-895f-ea13cd557c6e
+		summarizeBy: sum
+		sourceColumn: materials_dispensed
+
+	column steps_total
+		dataType: int64
+		lineageTag: f5d9493e-9da6-4b7a-b3f5-0aef0d108ef1
+		summarizeBy: sum
+		sourceColumn: steps_total
+
+	column steps_done
+		dataType: int64
+		lineageTag: ea0b4fa6-78a7-4627-8838-fe9ec7b16945
+		summarizeBy: sum
+		sourceColumn: steps_done
+
+	column open_deviations
+		dataType: int64
+		lineageTag: 57294bb6-9e72-4978-9a2d-e108bb60b310
+		summarizeBy: sum
+		sourceColumn: open_deviations
+
+	column total_deviations
+		dataType: int64
+		lineageTag: 3d4294b2-05c2-4e60-bd88-b70097f45a04
+		summarizeBy: sum
+		sourceColumn: total_deviations
+
+	column pct_complete
+		dataType: double
+		lineageTag: d2f1630e-17fe-490e-95e7-f443fdc303da
+		summarizeBy: sum
+		sourceColumn: pct_complete
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d55e493b-274e-4400-837c-2a7b94cf818e
+		summarizeBy: none
+		sourceColumn: created_at
+
+		variation Variation
+			isDefault
+			relationship: 73bc61e2-9126-49f4-8f14-7abff5a7847f
+			defaultHierarchy: LocalDateTable_23917f67-da6a-4b9a-94f7-d644671801b2.'Date Hierarchy'
+
+	column started_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 07966b62-79e9-4010-9d32-28b04fa3d9de
+		summarizeBy: none
+		sourceColumn: started_at
+
+		variation Variation
+			isDefault
+			relationship: c42eb37d-398c-4910-a34a-73458dc917db
+			defaultHierarchy: LocalDateTable_d9de22d2-7ac8-4e1a-88aa-ef6cbbc700e6.'Date Hierarchy'
+
+	column completed_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 6ed8fd4a-9578-4f0f-97e3-12221c1004b2
+		summarizeBy: none
+		sourceColumn: completed_at
+
+		variation Variation
+			isDefault
+			relationship: 1349f82b-8bb3-4c29-aed0-99e9faa54f56
+			defaultHierarchy: LocalDateTable_2df2ab25-83b0-4ce3-b24c-d6fd5bb80c5e.'Date Hierarchy'
+
+	column disposition_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: af3fb480-77de-4d1a-9706-3ff7fe782b2a
+		summarizeBy: none
+		sourceColumn: disposition_at
+
+		variation Variation
+			isDefault
+			relationship: c3c653ff-38a3-42c3-a6fc-4d386c2e0082
+			defaultHierarchy: LocalDateTable_d8369eba-4a76-4ab9-aaf6-3a13eda4c702.'Date Hierarchy'
+
+	partition BatchProgress = m
+		mode: import
+		source = let Source = Csv.Document(File.Contents("C:\GitHub\Pharmaceutical-MES-Portfolio\powerbi\data\batch_progress.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]), Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]), Blanks = Table.ReplaceValue(Promoted, "", null, Replacer.ReplaceValue, {"started_at", "completed_at", "disposition_at"}), Typed = Table.TransformColumnTypes(Blanks, {{"batch_no", type text}, {"product_code", type text}, {"product_name", type text}, {"recipe_version", Int64.Type}, {"status", type text}, {"materials_required", Int64.Type}, {"materials_dispensed", Int64.Type}, {"steps_total", Int64.Type}, {"steps_done", Int64.Type}, {"open_deviations", Int64.Type}, {"total_deviations", Int64.Type}, {"pct_complete", type number}, {"created_at", type datetime}, {"started_at", type datetime}, {"completed_at", type datetime}, {"disposition_at", type datetime}}, "en-US") in Typed
+
+	annotation PBI_ResultType = Table
+

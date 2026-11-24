@@ -1,0 +1,61 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
+  "name": "0f0c11ed9bc04ce7ab23",
+  "position": {
+    "x": 30,
+    "y": 110,
+    "z": 1,
+    "height": 160,
+    "width": 600,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Genealogy"
+                    }
+                  },
+                  "Property": "lot_no"
+                }
+              },
+              "queryRef": "Genealogy.lot_no",
+              "nativeQueryRef": "lot_no",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Lot'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

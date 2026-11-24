@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
+  "name": "1f750e333bd54ef3aa0e",
+  "position": {
+    "x": 1270,
+    "y": 110,
+    "z": 3,
+    "height": 160,
+    "width": 620,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Genealogy"
+                    }
+                  },
+                  "Property": "Lots Used"
+                }
+              },
+              "queryRef": "Genealogy.Lots Used",
+              "nativeQueryRef": "Lots Used"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

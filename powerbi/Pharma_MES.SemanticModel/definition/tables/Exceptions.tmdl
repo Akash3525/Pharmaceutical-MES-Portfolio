@@ -1,0 +1,55 @@
+table Exceptions
+	lineageTag: 6c5955e3-0e19-4fea-8442-3c67ca712711
+
+	measure 'Exception Count' = COUNTROWS ( Exceptions )
+		formatString: 0
+		lineageTag: 7c6fa623-c1c3-47bd-9d4b-556951d56bd7
+
+	column batch_no
+		dataType: string
+		lineageTag: 03a80df9-2a5b-4c10-8111-937165a982af
+		summarizeBy: none
+		sourceColumn: batch_no
+
+	column batch_status
+		dataType: string
+		lineageTag: 07ec21b7-2556-426f-be1a-c25af104651a
+		summarizeBy: none
+		sourceColumn: batch_status
+
+	column exception_type
+		dataType: string
+		lineageTag: 3e996272-9276-4dd9-8958-7c115846dd26
+		summarizeBy: none
+		sourceColumn: exception_type
+
+	column severity
+		dataType: string
+		lineageTag: 7295e7c0-3457-4dc7-b93b-3f0fca283565
+		summarizeBy: none
+		sourceColumn: severity
+
+	column detail
+		dataType: string
+		lineageTag: cd307221-c148-465f-9d2a-42440f66cdf9
+		summarizeBy: none
+		sourceColumn: detail
+
+	column occurred_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 95eb0a61-5b2f-4b07-b3d2-db57f30abdd9
+		summarizeBy: none
+		sourceColumn: occurred_at
+
+		variation Variation
+			isDefault
+			relationship: eb014201-1d58-46df-9284-e9536f91b31d
+			defaultHierarchy: LocalDateTable_8db8728e-5dfc-4131-9e53-0c24e72b1e5f.'Date Hierarchy'
+
+	partition Exceptions = m
+		mode: import
+		source = let Source = Csv.Document(File.Contents("C:\GitHub\Pharmaceutical-MES-Portfolio\powerbi\data\review_by_exception.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]), Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]), Blanks = Table.ReplaceValue(Promoted, "", null, Replacer.ReplaceValue, {}), Typed = Table.TransformColumnTypes(Blanks, {{"batch_no", type text}, {"batch_status", type text}, {"exception_type", type text}, {"severity", type text}, {"detail", type text}, {"occurred_at", type datetime}}, "en-US") in Typed
+
+	annotation PBI_ResultType = Table
+

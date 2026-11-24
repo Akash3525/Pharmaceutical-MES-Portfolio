@@ -1,0 +1,6 @@
+batch_no,batch_status,exception_type,severity,detail,occurred_at
+IBU-200-0004,COMPLETED,DEVIATION OPEN,MINOR,"DEV-00003 [PROCESS_SIGNAL] FBD-201/TIC-201/PV.CV (Fluid bed dryer inlet air temperature) = 72.07 degC at 2026-11-16 18:17, alarm limits 55 to 70",2026-11-16 18:17:00
+IBU-200-0004,COMPLETED,PROCESS ALARM,INFO,"FBD-201/TIC-201/PV.CV: 4 reading(s) outside 55 to 70 degC, worst 72.90",2026-11-16 18:17:00
+PCM-500-0005,COMPLETED,DEVIATION OPEN,MAJOR,"DEV-00001 [DISPENSING] Dispensed 1.080 kg of EXC-MGS against target 1.000 (8.00%, tolerance ±5.00%)",2026-11-13 04:46:00
+PCM-500-0006,COMPLETED,DEVIATION OPEN,MAJOR,"DEV-00002 [STEP] Step 3 Loss on drying = 3.1 %, outside limits 1 to 2.5",2026-11-15 01:36:00
+PCM-500-0006,COMPLETED,RECORD CHANGED,INFO,step_executions 45 changed by op.garcia: Transcription error: value re-read from balance printout,2026-11-24 09:57:33

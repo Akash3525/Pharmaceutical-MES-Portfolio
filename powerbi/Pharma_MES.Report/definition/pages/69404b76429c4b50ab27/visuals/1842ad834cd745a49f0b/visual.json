@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
+  "name": "1842ad834cd745a49f0b",
+  "position": {
+    "x": 1590,
+    "y": 110,
+    "z": 6,
+    "height": 160,
+    "width": 300,
+    "tabOrder": 6
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BatchProgress"
+                    }
+                  },
+                  "Property": "Avg Release Time (h)"
+                }
+              },
+              "queryRef": "BatchProgress.Avg Release Time (h)",
+              "nativeQueryRef": "Avg Release Time (h)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

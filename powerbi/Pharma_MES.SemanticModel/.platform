@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Pharma_MES"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "3bf25b60-2626-4fc0-93af-56202576c7a5"
+  }
+}

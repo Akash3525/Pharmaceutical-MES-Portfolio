@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
+  "name": "888142d8cc9d48278cc1",
+  "position": {
+    "x": 960,
+    "y": 110,
+    "z": 4,
+    "height": 160,
+    "width": 290,
+    "tabOrder": 4
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BatchProgress"
+                    }
+                  },
+                  "Property": "Open Deviations"
+                }
+              },
+              "queryRef": "BatchProgress.Open Deviations",
+              "nativeQueryRef": "Open Deviations"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
+  "name": "99796e1b41ca425c9341",
+  "position": {
+    "x": 650,
+    "y": 290,
+    "z": 5,
+    "height": 760,
+    "width": 1240,
+    "tabOrder": 5
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Genealogy"
+                    }
+                  },
+                  "Property": "lot_no"
+                }
+              },
+              "queryRef": "Genealogy.lot_no",
+              "nativeQueryRef": "lot_no"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Genealogy"
+                    }
+                  },
+                  "Property": "material_code"
+                }
+              },
+              "queryRef": "Genealogy.material_code",
+              "nativeQueryRef": "material_code"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Genealogy"
+                    }
+                  },
+                  "Property": "lot_status"
+                }
+              },
+              "queryRef": "Genealogy.lot_status",
+              "nativeQueryRef": "lot_status"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Genealogy"
+                    }
+                  },
+                  "Property": "supplier"
+                }
+              },
+              "queryRef": "Genealogy.supplier",
+              "nativeQueryRef": "supplier"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Genealogy"
+                    }
+                  },
+                  "Property": "batch_no"
+                }
+              },
+              "queryRef": "Genealogy.batch_no",
+              "nativeQueryRef": "batch_no"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Genealogy"
+                    }
+                  },
+                  "Property": "product_code"
+                }
+              },
+              "queryRef": "Genealogy.product_code",
+              "nativeQueryRef": "product_code"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Genealogy"
+                    }
+                  },
+                  "Property": "batch_status"
+                }
+              },
+              "queryRef": "Genealogy.batch_status",
+              "nativeQueryRef": "batch_status"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Genealogy"
+                    }
+                  },
+                  "Property": "qty_used"
+                }
+              },
+              "queryRef": "Genealogy.qty_used",
+              "nativeQueryRef": "qty_used"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Genealogy"
+                    }
+                  },
+                  "Property": "dispensed_at"
+                }
+              },
+              "queryRef": "Genealogy.dispensed_at",
+              "nativeQueryRef": "dispensed_at"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Lot to batch genealogy'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

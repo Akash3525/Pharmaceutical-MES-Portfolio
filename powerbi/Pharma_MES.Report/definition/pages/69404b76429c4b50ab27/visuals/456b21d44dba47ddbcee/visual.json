@@ -1,0 +1,158 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.15.0/schema.json",
+  "name": "456b21d44dba47ddbcee",
+  "position": {
+    "x": 650,
+    "y": 290,
+    "z": 8,
+    "height": 760,
+    "width": 1240,
+    "tabOrder": 8
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BatchProgress"
+                    }
+                  },
+                  "Property": "batch_no"
+                }
+              },
+              "queryRef": "BatchProgress.batch_no",
+              "nativeQueryRef": "batch_no"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BatchProgress"
+                    }
+                  },
+                  "Property": "product_name"
+                }
+              },
+              "queryRef": "BatchProgress.product_name",
+              "nativeQueryRef": "product_name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BatchProgress"
+                    }
+                  },
+                  "Property": "status"
+                }
+              },
+              "queryRef": "BatchProgress.status",
+              "nativeQueryRef": "status"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BatchProgress"
+                    }
+                  },
+                  "Property": "pct_complete"
+                }
+              },
+              "queryRef": "BatchProgress.pct_complete",
+              "nativeQueryRef": "pct_complete"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BatchProgress"
+                    }
+                  },
+                  "Property": "open_deviations"
+                }
+              },
+              "queryRef": "BatchProgress.open_deviations",
+              "nativeQueryRef": "open_deviations"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BatchProgress"
+                    }
+                  },
+                  "Property": "total_deviations"
+                }
+              },
+              "queryRef": "BatchProgress.total_deviations",
+              "nativeQueryRef": "total_deviations"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BatchProgress"
+                    }
+                  },
+                  "Property": "completed_at"
+                }
+              },
+              "queryRef": "BatchProgress.completed_at",
+              "nativeQueryRef": "completed_at"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "BatchProgress"
+                    }
+                  },
+                  "Property": "disposition_at"
+                }
+              },
+              "queryRef": "BatchProgress.disposition_at",
+              "nativeQueryRef": "disposition_at"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Batch progress'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

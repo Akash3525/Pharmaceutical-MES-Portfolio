@@ -1,0 +1,28 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["BatchProgress","Exceptions","Genealogy"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table BatchProgress
+ref table Exceptions
+ref table Genealogy
+ref table DateTableTemplate_816ef0f4-98a1-4b74-8fec-c833cd2be37e
+ref table LocalDateTable_23917f67-da6a-4b9a-94f7-d644671801b2
+ref table LocalDateTable_d9de22d2-7ac8-4e1a-88aa-ef6cbbc700e6
+ref table LocalDateTable_2df2ab25-83b0-4ce3-b24c-d6fd5bb80c5e
+ref table LocalDateTable_d8369eba-4a76-4ab9-aaf6-3a13eda4c702
+ref table LocalDateTable_8db8728e-5dfc-4131-9e53-0c24e72b1e5f
+ref table LocalDateTable_789de5c9-389d-487d-9d12-7459ba2d8b67
+ref table LocalDateTable_6b6ec764-a836-4cf3-9ea0-a8741126e9af
+
+ref cultureInfo en-US
+

@@ -1,0 +1,56 @@
+lot_no,material_code,material_name,supplier,lot_status,expiry_date,batch_no,product_code,product_name,batch_status,qty_used,uom,dispensed_at
+L24-CCS-001,EXC-CCS,Croscarmellose sodium,Sample Excipients Inc,RELEASED,2027-12-29,IBU-200-0001,IBU-200,Ibuprofen 200 mg tablets,RELEASED,3.191,kg,2026-11-02 09:18:00
+L24-CCS-001,EXC-CCS,Croscarmellose sodium,Sample Excipients Inc,RELEASED,2027-12-29,IBU-200-0002,IBU-200,Ibuprofen 200 mg tablets,RELEASED,3.191,kg,2026-11-07 18:56:00
+L24-CCS-001,EXC-CCS,Croscarmellose sodium,Sample Excipients Inc,RELEASED,2027-12-29,IBU-200-0003,IBU-200,Ibuprofen 200 mg tablets,COMPLETED,3.198,kg,2026-11-11 06:23:00
+L24-CCS-001,EXC-CCS,Croscarmellose sodium,Sample Excipients Inc,RELEASED,2027-12-29,IBU-200-0004,IBU-200,Ibuprofen 200 mg tablets,COMPLETED,3.205,kg,2026-11-16 16:57:00
+L24-IBU-001,API-IBU,Ibuprofen API,Example Actives GmbH,RELEASED,2027-12-09,IBU-200-0001,IBU-200,Ibuprofen 200 mg tablets,RELEASED,31.914,kg,2026-11-02 09:09:00
+L24-IBU-001,API-IBU,Ibuprofen API,Example Actives GmbH,RELEASED,2027-12-09,IBU-200-0002,IBU-200,Ibuprofen 200 mg tablets,RELEASED,32.074,kg,2026-11-07 18:45:00
+L24-IBU-001,API-IBU,Ibuprofen API,Example Actives GmbH,RELEASED,2027-12-09,IBU-200-0003,IBU-200,Ibuprofen 200 mg tablets,COMPLETED,31.992,kg,2026-11-11 06:09:00
+L24-IBU-001,API-IBU,Ibuprofen API,Example Actives GmbH,RELEASED,2027-12-09,IBU-200-0004,IBU-200,Ibuprofen 200 mg tablets,COMPLETED,32.059,kg,2026-11-16 16:45:00
+L24-MCC-001,EXC-MCC,Microcrystalline cellulose PH-101,Sample Excipients Inc,RELEASED,2028-05-17,IBU-200-0001,IBU-200,Ibuprofen 200 mg tablets,RELEASED,35.955,kg,2026-11-02 09:26:00
+L24-MCC-001,EXC-MCC,Microcrystalline cellulose PH-101,Sample Excipients Inc,RELEASED,2028-05-17,IBU-200-0002,IBU-200,Ibuprofen 200 mg tablets,RELEASED,35.969,kg,2026-11-07 19:09:00
+L24-MCC-001,EXC-MCC,Microcrystalline cellulose PH-101,Sample Excipients Inc,RELEASED,2028-05-17,IBU-200-0003,IBU-200,Ibuprofen 200 mg tablets,COMPLETED,35.977,kg,2026-11-11 06:35:00
+L24-MCC-001,EXC-MCC,Microcrystalline cellulose PH-101,Sample Excipients Inc,RELEASED,2028-05-17,IBU-200-0004,IBU-200,Ibuprofen 200 mg tablets,COMPLETED,35.935,kg,2026-11-16 17:06:00
+L24-MCC-001,EXC-MCC,Microcrystalline cellulose PH-101,Sample Excipients Inc,RELEASED,2028-05-17,PCM-500-0002,PCM-500,Paracetamol 500 mg tablets,RELEASED,34.971,kg,2026-11-04 04:34:00
+L24-MCC-001,EXC-MCC,Microcrystalline cellulose PH-101,Sample Excipients Inc,RELEASED,2028-05-17,PCM-500-0003,PCM-500,Paracetamol 500 mg tablets,RELEASED,35.061,kg,2026-11-05 20:48:00
+L24-MCC-001,EXC-MCC,Microcrystalline cellulose PH-101,Sample Excipients Inc,RELEASED,2028-05-17,PCM-500-0004,PCM-500,Paracetamol 500 mg tablets,COMPLETED,35.038,kg,2026-11-09 13:08:00
+L24-MCC-001,EXC-MCC,Microcrystalline cellulose PH-101,Sample Excipients Inc,RELEASED,2028-05-17,PCM-500-0005,PCM-500,Paracetamol 500 mg tablets,COMPLETED,35.096,kg,2026-11-13 04:31:00
+L24-MCC-001,EXC-MCC,Microcrystalline cellulose PH-101,Sample Excipients Inc,RELEASED,2028-05-17,PCM-500-0006,PCM-500,Paracetamol 500 mg tablets,COMPLETED,34.971,kg,2026-11-14 21:47:00
+L24-MCC-001,EXC-MCC,Microcrystalline cellulose PH-101,Sample Excipients Inc,RELEASED,2028-05-17,PCM-500-0007,PCM-500,Paracetamol 500 mg tablets,IN_PROGRESS,35.026,kg,2026-11-18 12:10:00
+L24-MCC-002,EXC-MCC,Microcrystalline cellulose PH-101,Sample Excipients Inc,RELEASED,2026-12-24,PCM-500-0001,PCM-500,Paracetamol 500 mg tablets,RELEASED,35.032,kg,2026-10-31 14:09:00
+L24-MGS-001,EXC-MGS,Magnesium stearate,Demo Lubricants SA,RELEASED,2027-09-20,IBU-200-0001,IBU-200,Ibuprofen 200 mg tablets,RELEASED,0.800,kg,2026-11-02 09:34:00
+L24-MGS-001,EXC-MGS,Magnesium stearate,Demo Lubricants SA,RELEASED,2027-09-20,IBU-200-0002,IBU-200,Ibuprofen 200 mg tablets,RELEASED,0.798,kg,2026-11-07 19:24:00
+L24-MGS-001,EXC-MGS,Magnesium stearate,Demo Lubricants SA,RELEASED,2027-09-20,IBU-200-0003,IBU-200,Ibuprofen 200 mg tablets,COMPLETED,0.801,kg,2026-11-11 06:48:00
+L24-MGS-001,EXC-MGS,Magnesium stearate,Demo Lubricants SA,RELEASED,2027-09-20,IBU-200-0004,IBU-200,Ibuprofen 200 mg tablets,COMPLETED,0.799,kg,2026-11-16 17:19:00
+L24-MGS-001,EXC-MGS,Magnesium stearate,Demo Lubricants SA,RELEASED,2027-09-20,PCM-500-0001,PCM-500,Paracetamol 500 mg tablets,RELEASED,1.002,kg,2026-10-31 14:16:00
+L24-MGS-001,EXC-MGS,Magnesium stearate,Demo Lubricants SA,RELEASED,2027-09-20,PCM-500-0002,PCM-500,Paracetamol 500 mg tablets,RELEASED,1.002,kg,2026-11-04 04:43:00
+L24-MGS-001,EXC-MGS,Magnesium stearate,Demo Lubricants SA,RELEASED,2027-09-20,PCM-500-0003,PCM-500,Paracetamol 500 mg tablets,RELEASED,0.999,kg,2026-11-05 20:59:00
+L24-MGS-001,EXC-MGS,Magnesium stearate,Demo Lubricants SA,RELEASED,2027-09-20,PCM-500-0004,PCM-500,Paracetamol 500 mg tablets,COMPLETED,1.003,kg,2026-11-09 13:20:00
+L24-MGS-001,EXC-MGS,Magnesium stearate,Demo Lubricants SA,RELEASED,2027-09-20,PCM-500-0005,PCM-500,Paracetamol 500 mg tablets,COMPLETED,1.080,kg,2026-11-13 04:46:00
+L24-MGS-001,EXC-MGS,Magnesium stearate,Demo Lubricants SA,RELEASED,2027-09-20,PCM-500-0006,PCM-500,Paracetamol 500 mg tablets,COMPLETED,1.002,kg,2026-11-14 22:01:00
+L24-MGS-001,EXC-MGS,Magnesium stearate,Demo Lubricants SA,RELEASED,2027-09-20,PCM-500-0007,PCM-500,Paracetamol 500 mg tablets,IN_PROGRESS,1.002,kg,2026-11-18 12:25:00
+L24-PCM-001,API-PCM,Paracetamol API,Fictional Pharma Chem Ltd,RELEASED,2028-01-18,PCM-500-0001,PCM-500,Paracetamol 500 mg tablets,RELEASED,50.134,kg,2026-10-31 13:57:00
+L24-PCM-001,API-PCM,Paracetamol API,Fictional Pharma Chem Ltd,RELEASED,2028-01-18,PCM-500-0002,PCM-500,Paracetamol 500 mg tablets,RELEASED,50.026,kg,2026-11-04 04:21:00
+L24-PCM-001,API-PCM,Paracetamol API,Fictional Pharma Chem Ltd,RELEASED,2028-01-18,PCM-500-0003,PCM-500,Paracetamol 500 mg tablets,RELEASED,50.079,kg,2026-11-05 20:33:00
+L24-PCM-001,API-PCM,Paracetamol API,Fictional Pharma Chem Ltd,RELEASED,2028-01-18,PCM-500-0004,PCM-500,Paracetamol 500 mg tablets,COMPLETED,50.062,kg,2026-11-09 12:57:00
+L24-PCM-001,API-PCM,Paracetamol API,Fictional Pharma Chem Ltd,RELEASED,2028-01-18,PCM-500-0005,PCM-500,Paracetamol 500 mg tablets,COMPLETED,49.895,kg,2026-11-13 04:21:00
+L24-PCM-002,API-PCM,Paracetamol API,Fictional Pharma Chem Ltd,RELEASED,2028-07-26,PCM-500-0006,PCM-500,Paracetamol 500 mg tablets,COMPLETED,50.135,kg,2026-11-14 21:33:00
+L24-PCM-002,API-PCM,Paracetamol API,Fictional Pharma Chem Ltd,RELEASED,2028-07-26,PCM-500-0007,PCM-500,Paracetamol 500 mg tablets,IN_PROGRESS,49.951,kg,2026-11-18 11:57:00
+L24-PVP-001,EXC-PVP,Povidone K30,Sample Excipients Inc,RELEASED,2028-02-17,PCM-500-0001,PCM-500,Paracetamol 500 mg tablets,RELEASED,3.997,kg,2026-10-31 14:23:00
+L24-PVP-001,EXC-PVP,Povidone K30,Sample Excipients Inc,RELEASED,2028-02-17,PCM-500-0002,PCM-500,Paracetamol 500 mg tablets,RELEASED,3.990,kg,2026-11-04 04:52:00
+L24-PVP-001,EXC-PVP,Povidone K30,Sample Excipients Inc,RELEASED,2028-02-17,PCM-500-0003,PCM-500,Paracetamol 500 mg tablets,RELEASED,4.002,kg,2026-11-05 21:10:00
+L24-PVP-001,EXC-PVP,Povidone K30,Sample Excipients Inc,RELEASED,2028-02-17,PCM-500-0004,PCM-500,Paracetamol 500 mg tablets,COMPLETED,3.990,kg,2026-11-09 13:28:00
+L24-PVP-001,EXC-PVP,Povidone K30,Sample Excipients Inc,RELEASED,2028-02-17,PCM-500-0005,PCM-500,Paracetamol 500 mg tablets,COMPLETED,3.991,kg,2026-11-13 04:53:00
+L24-PVP-001,EXC-PVP,Povidone K30,Sample Excipients Inc,RELEASED,2028-02-17,PCM-500-0006,PCM-500,Paracetamol 500 mg tablets,COMPLETED,3.995,kg,2026-11-14 22:15:00
+L24-PVP-001,EXC-PVP,Povidone K30,Sample Excipients Inc,RELEASED,2028-02-17,PCM-500-0007,PCM-500,Paracetamol 500 mg tablets,IN_PROGRESS,4.010,kg,2026-11-18 12:38:00
+L24-STA-001,EXC-STA,Maize starch,Demo Starch Co,RELEASED,2027-11-24,IBU-200-0001,IBU-200,Ibuprofen 200 mg tablets,RELEASED,7.991,kg,2026-11-02 09:49:00
+L24-STA-001,EXC-STA,Maize starch,Demo Starch Co,RELEASED,2027-11-24,IBU-200-0002,IBU-200,Ibuprofen 200 mg tablets,RELEASED,7.986,kg,2026-11-07 19:30:00
+L24-STA-001,EXC-STA,Maize starch,Demo Starch Co,RELEASED,2027-11-24,IBU-200-0003,IBU-200,Ibuprofen 200 mg tablets,COMPLETED,7.985,kg,2026-11-11 06:54:00
+L24-STA-001,EXC-STA,Maize starch,Demo Starch Co,RELEASED,2027-11-24,IBU-200-0004,IBU-200,Ibuprofen 200 mg tablets,COMPLETED,8.024,kg,2026-11-16 17:25:00
+L24-STA-001,EXC-STA,Maize starch,Demo Starch Co,RELEASED,2027-11-24,PCM-500-0001,PCM-500,Paracetamol 500 mg tablets,RELEASED,10.025,kg,2026-10-31 14:29:00
+L24-STA-001,EXC-STA,Maize starch,Demo Starch Co,RELEASED,2027-11-24,PCM-500-0002,PCM-500,Paracetamol 500 mg tablets,RELEASED,10.002,kg,2026-11-04 05:02:00
+L24-STA-001,EXC-STA,Maize starch,Demo Starch Co,RELEASED,2027-11-24,PCM-500-0003,PCM-500,Paracetamol 500 mg tablets,RELEASED,10.018,kg,2026-11-05 21:25:00
+L24-STA-001,EXC-STA,Maize starch,Demo Starch Co,RELEASED,2027-11-24,PCM-500-0004,PCM-500,Paracetamol 500 mg tablets,COMPLETED,9.984,kg,2026-11-09 13:36:00
+L24-STA-001,EXC-STA,Maize starch,Demo Starch Co,RELEASED,2027-11-24,PCM-500-0005,PCM-500,Paracetamol 500 mg tablets,COMPLETED,10.030,kg,2026-11-13 05:06:00
+L24-STA-001,EXC-STA,Maize starch,Demo Starch Co,RELEASED,2027-11-24,PCM-500-0006,PCM-500,Paracetamol 500 mg tablets,COMPLETED,10.012,kg,2026-11-14 22:22:00
+L24-STA-001,EXC-STA,Maize starch,Demo Starch Co,RELEASED,2027-11-24,PCM-500-0007,PCM-500,Paracetamol 500 mg tablets,IN_PROGRESS,10.018,kg,2026-11-18 12:49:00
