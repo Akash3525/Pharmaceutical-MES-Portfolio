@@ -80,8 +80,9 @@ The triggers move a batch from one status to the next. No code updates `batches.
 ## Simulated signals
 
 `simulator.py` generates values for four DeltaV-style tags, such as `FBD-201/TIC-201/PV.CV`, as a mean-reverting random walk around a setpoint.
-It does **not** connect to a DCS, an OPC UA server or a historian.
-In a real system, an OPC UA client or a historian interface such as PI or DeltaV Continuous Historian would write the same `process_signals` rows.
+`opcua_server.py` publishes these tags over OPC UA, as a DCS would, and can log them into `process_signals` for a chosen batch. `opcua_viewer.py` is a minimal OPC UA client.
+No real DCS or historian is involved.
+In a real system, a SCADA or MES client (for example Ignition) or a historian interface such as PI or DeltaV Continuous Historian would read the tags and write the same `process_signals` rows.
 
 ## What a real system would add
 

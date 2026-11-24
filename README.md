@@ -2,7 +2,7 @@
 
 Simulated pharmaceutical MES and electronic batch record system (Python, Streamlit, PostgreSQL) with audit trail, deviation handling and QA review. Learning project, not a validated GxP system.
 
-> All products, lots, suppliers and people are fictional. Process signals come from a Python simulator, not a real DCS or OPC UA connection.
+> All products, lots, suppliers and people are fictional. Process signals come from a Python simulator, published over OPC UA by a local Python server, not from a real DCS.
 
 ## Highlights
 
@@ -55,11 +55,14 @@ Pharmaceutical_MES/
   mes.py         thin write helpers shared by app, seed and tests
   seed.py        creates the database and loads the sample data
   simulator.py   DeltaV-style process signal simulator
+  opcua_server.py  OPC UA server publishing the simulated tags
+  opcua_viewer.py  OPC UA client printing live tag values
   export_powerbi.py  exports the reporting views to powerbi/data/*.csv
   db.py          connection settings (MES_DB_* variables)
 powerbi/         Power BI report (.pbix), Power BI Project (.pbip) and CSV data
 Testing/
   test_gmp_rules.py   17 tests, one or more per rule
+  test_opcua_server.py  OPC UA server test (reads tags, triggers an excursion)
 docs/
   Architecture.md     rule map, batch lifecycle, design decisions
   Tulip_App_Design.md design spec (not built)
@@ -87,6 +90,36 @@ Generate more process data for a batch from the command line:
 python Pharmaceutical_MES/simulator.py PCM-500-0007 --minutes 30 --excursion
 ```
 
+### OPC UA server (simulated DeltaV tags)
+
+`opcua_server.py` publishes the four simulated tags over **OPC UA** at `opc.tcp://localhost:4840/pharma-mes/`, updating every second. This is the role a DCS plays in a real plant, and any OPC UA client can browse and subscribe to the tags. A writable `SIM/Excursion` tag pushes the dryer inlet temperature above its 70 °C alarm limit.
+
+Start the server in one window:
+```bash
+python Pharmaceutical_MES/opcua_server.py
+```
+
+Watch the live values from a second window:
+```bash
+python Pharmaceutical_MES/opcua_viewer.py
+```
+
+Switch the simulated excursion on and back off:
+```bash
+python Pharmaceutical_MES/opcua_viewer.py --excursion on
+python Pharmaceutical_MES/opcua_viewer.py --excursion off
+```
+
+To also write the values into the batch record every 60 s, start the server with `--log-batch PCM-500-0007`. An excursion then raises a deviation through the same database trigger as everything else.
+
+```
+time          GRAN-101/TIC-101/PV.CV    GRAN-101/SIC-102/PV.CV     FBD-201/TIC-201/PV.CV      FBD-201/MT-202/PV.CV
+10:56:18           32.84 degC               198.78 rpm                 63.49 degC                22.65 %RH
+10:56:19           32.68 degC               200.25 rpm                 74.77 degC  ALARM         23.01 %RH
+```
+
+The server uses no encryption or login and listens only on this computer. It is a learning simulation, not a connection to a real DCS.
+
 **Windows note:** if the `psycopg-binary` DLL is blocked (for example by Smart App Control), set `PSYCOPG_IMPL=python` in `.env`. `db.py` then uses `libpq.dll` from the local PostgreSQL install.
 
 ## Power BI dashboard
@@ -113,7 +146,7 @@ The data source paths point to `C:\GitHub\Pharmaceutical-MES-Portfolio\powerbi\d
 ## Not built yet
 
 - **Tulip app**: design spec only, see [Tulip App Design](docs/Tulip_App_Design.md). The status is *Planned*.
-- **OPC UA server** for the simulator: not built. Signals are written directly to the database.
+- **SCADA/MES client for the OPC UA server** (for example Ignition): not connected yet. The tags can be viewed with the included viewer or any OPC UA client, such as UaExpert.
 
 ## Skills demonstrated
 
