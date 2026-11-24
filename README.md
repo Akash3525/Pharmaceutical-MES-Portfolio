@@ -2,6 +2,12 @@
 
 Simulated pharmaceutical MES and electronic batch record system (Python, Streamlit, PostgreSQL) with audit trail, deviation handling and QA review. Learning project, not a validated GxP system.
 
+
+
+https://github.com/user-attachments/assets/fe2c01af-deb1-4a7b-ab92-f02594fdf1de
+
+
+
 > All products, lots, suppliers and people are fictional. Process signals come from a Python simulator, published over OPC UA by a local Python server, not from a real DCS.
 
 ## Highlights
