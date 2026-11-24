@@ -3,6 +3,7 @@ import psycopg
 import pytest
 from conftest import RuleViolation, dispense_all, lot, material, recipe_id, run_all_steps
 
+import db
 import mes
 
 
@@ -41,6 +42,29 @@ def test_dispensing_requires_second_person_verification(conn, new_batch):
         mes.dispense(conn, "op.patel", "op.patel", *args)
 
 
+def test_cannot_dispense_wrong_material(conn, new_batch):
+    with pytest.raises(RuleViolation, match="not in the recipe"):  # ibuprofen is not in the paracetamol recipe
+        mes.dispense(conn, "op.patel", "op.garcia", new_batch, material(conn, "API-IBU"),
+                     lot(conn, "L24-IBU-001"), 32.0)
+    with pytest.raises(RuleViolation, match="not the requested material"):  # starch requested, stearate lot scanned
+        mes.dispense(conn, "op.patel", "op.garcia", new_batch, material(conn, "EXC-STA"),
+                     lot(conn, "L24-MGS-001"), 10.0)
+
+
+def test_cannot_dispense_more_than_stock_on_hand(conn, new_batch):
+    with pytest.raises(RuleViolation, match="available"):
+        mes.dispense(conn, "op.patel", "op.garcia", new_batch, material(conn, "EXC-MCC"),
+                     lot(conn, "L24-MCC-002"), 5000.0)
+
+
+def test_dispensed_weight_cannot_be_edited(conn, new_batch):
+    mes.dispense(conn, "op.patel", "op.garcia", new_batch, material(conn, "EXC-STA"),
+                 lot(conn, "L24-STA-001"), 10.0)
+    with pytest.raises(RuleViolation, match="cannot be edited"):
+        with db.session(conn, "op.patel", "Scale reading typed wrongly"):
+            conn.execute("UPDATE dispensing SET actual_qty = 9.5 WHERE batch_id = %s", (new_batch,))
+
+
 def test_out_of_tolerance_dispense_raises_deviation(conn, new_batch):
     mes.dispense(conn, "op.patel", "op.garcia", new_batch, material(conn, "EXC-MGS"),
                  lot(conn, "L24-MGS-001"), 1.10)  # target 1.0 kg, tolerance 5 %
@@ -58,6 +82,18 @@ def test_steps_need_full_dispensing_and_run_in_order(conn, new_batch):
     dispense_all(conn, new_batch)
     with pytest.raises(RuleViolation, match="must be completed before"):
         mes.record_step(conn, "op.garcia", new_batch, 2, 200)
+
+
+def test_last_step_completes_the_batch(conn, new_batch):
+    def status():
+        return conn.execute("SELECT status FROM batches WHERE batch_id = %s", (new_batch,)).fetchone()[0]
+    dispense_all(conn, new_batch)
+    assert status() == "DISPENSING"
+    mes.record_step(conn, "op.garcia", new_batch, 1, 7)
+    assert status() == "IN_PROGRESS"
+    run_all_steps(conn, new_batch)
+    assert status() == "COMPLETED"
+    assert conn.execute("SELECT completed_at FROM batches WHERE batch_id = %s", (new_batch,)).fetchone()[0]
 
 
 def test_out_of_limit_step_raises_deviation_and_in_limit_does_not(conn, new_batch):
@@ -108,10 +144,48 @@ def test_change_with_reason_is_audited_with_old_and_new_value(conn, completed_ba
     assert row == ("op.garcia", "Wrong value typed", "7.5", "8")
 
 
+def test_inserts_are_audited_with_user_and_time(conn, new_batch):
+    row = conn.execute("""SELECT changed_by, changed_at, new_data ->> 'batch_id' FROM audit_trail
+                          WHERE table_name = 'batches' AND action = 'INSERT' AND record_id = %s""",
+                       (str(new_batch),)).fetchone()
+    assert row[0] == "sup.chen" and row[1] is not None and row[2] == str(new_batch)
+
+
+# ---------------------------------------------------------------- deviations
+def test_closing_a_deviation_needs_a_resolution_and_closed_is_final(conn, new_batch):
+    mes.dispense(conn, "op.patel", "op.garcia", new_batch, material(conn, "EXC-MGS"),
+                 lot(conn, "L24-MGS-001"), 1.10)  # out of tolerance -> deviation
+    dev_id = conn.execute("SELECT deviation_id FROM deviations WHERE batch_id = %s", (new_batch,)).fetchone()[0]
+    with pytest.raises(RuleViolation, match="Only an active QA user"):
+        mes.close_deviation(conn, "op.patel", dev_id, "Looks fine")
+    with pytest.raises(RuleViolation, match="resolution is required"):
+        mes.close_deviation(conn, "qa.okafor", dev_id, "  ")
+    mes.close_deviation(conn, "qa.okafor", dev_id, "Scale recalibrated, impact assessed as none")
+    with pytest.raises(RuleViolation, match="closed and cannot be changed"):
+        with db.session(conn, "qa.okafor", "Reopen"):
+            conn.execute("UPDATE deviations SET status = 'OPEN' WHERE deviation_id = %s", (dev_id,))
+
+
 # ---------------------------------------------------------------- QA signature
 def test_only_qa_can_sign(conn, completed_batch):
-    with pytest.raises(RuleViolation, match="Only an active QA user"):
-        mes.sign_batch(conn, "sup.chen", completed_batch)
+    for user in ("op.patel", "sup.chen"):
+        with pytest.raises(RuleViolation, match="Only an active QA user"):
+            mes.sign_batch(conn, user, completed_batch)
+
+
+def test_rejecting_a_batch_needs_a_reason(conn, completed_batch):
+    with pytest.raises(RuleViolation, match="reason is required to reject"):
+        mes.sign_batch(conn, "qa.okafor", completed_batch, meaning="REJECT")
+    mes.sign_batch(conn, "qa.okafor", completed_batch, meaning="REJECT", reason="Granule moisture trend")
+    assert conn.execute("SELECT status FROM batches WHERE batch_id = %s",
+                        (completed_batch,)).fetchone()[0] == "REJECTED"
+
+
+def test_signatures_cannot_be_modified(conn, completed_batch):
+    mes.sign_batch(conn, "qa.okafor", completed_batch)
+    with pytest.raises(RuleViolation, match="cannot be modified"):
+        with db.session(conn, "qa.okafor", "Change meaning"):
+            conn.execute("UPDATE batch_signatures SET meaning = 'REJECT' WHERE batch_id = %s", (completed_batch,))
 
 
 def test_qa_cannot_sign_a_batch_they_executed(conn, new_batch):

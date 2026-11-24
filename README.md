@@ -30,7 +30,7 @@ flowchart LR
     O["opcua_server.py<br/>DeltaV-style tags over OPC UA"] -- "process_signals" --> DB
     O -. "live tags" .-> V["opcua_viewer.py<br/>or any OPC UA client"]
     DB -- "reporting views" --> E["export_powerbi.py<br/>CSV"] --> P["Power BI report<br/>3 pages"]
-    T["pytest · 18 tests"] --> DB
+    T["pytest · 31 tests"] --> DB
     TU["Tulip app<br/>(planned, not built)"] -.-> DB
 ```
 
@@ -90,18 +90,22 @@ The lots include a quarantined, a rejected and an expired lot, so you can watch 
 
 ## Tests
 
-**18 passing**: 17 GMP rule tests that hit the database directly, plus 1 OPC UA end-to-end test. They run automatically on every push (GitHub Actions, PostgreSQL 17).
+**31 passing**, all run automatically on every push (GitHub Actions, PostgreSQL 17):
+- 25 GMP rule tests that hit the database directly
+- 2 OPC UA end-to-end tests
+- 4 app tests that drive the Streamlit pages headlessly
 
 ```
 pytest -v
 ...
-Testing/test_gmp_rules.py::test_open_deviation_blocks_release_until_closed PASSED
 Testing/test_gmp_rules.py::test_rule_violations_are_database_errors_not_app_checks PASSED
 Testing/test_opcua_server.py::test_tags_are_published_and_excursion_breaches_limit PASSED
-============================= 18 passed in 7.04s ==============================
+Testing/test_opcua_server.py::test_logged_excursion_raises_a_deviation_on_the_batch PASSED
+============================= 31 passed in 15.31s =============================
 ```
 
-Full list, what each test proves and a worked deviation example: [docs/Testing.md](docs/Testing.md).
+- **[docs/Testing.md](docs/Testing.md):** the full list of tests, what each one proves, and a worked deviation example.
+- **[docs/Validation.md](docs/Validation.md):** validation documents written the way a validation package would record them: 30 requirements with risk ratings, a traceability matrix to the tests, a 22-case protocol with results, a validation summary and a Part 11 / Annex 11 concept mapping. This is a portfolio demonstration, not a validated GxP system.
 
 ## Project structure
 
@@ -117,12 +121,14 @@ Pharmaceutical_MES/
   export_powerbi.py  exports the reporting views to powerbi/data/*.csv
   db.py              connection settings (MES_DB_* variables)
 Testing/
-  test_gmp_rules.py     17 tests, one or more per GMP rule
-  test_opcua_server.py  1 test: reads the OPC UA tags and triggers an excursion
+  test_gmp_rules.py     25 tests, one or more per GMP rule
+  test_opcua_server.py  2 tests: reads the tags, triggers an excursion, logs it to a batch
+  test_app_ui.py        4 tests: drives the Streamlit app headlessly (AppTest)
 powerbi/             Power BI report (.pbix), Power BI Project (.pbip) and CSV data
 docs/
   Architecture.md      rule map, batch lifecycle, design decisions
   Testing.md           what the tests prove, latest results
+  Validation.md        requirements, traceability, test protocol, summary, Part 11 mapping
   Tulip_App_Design.md  design spec for a Tulip front end (planned)
   PowerBI_Guide.md     dashboard measures and layout
 .github/workflows/tests.yml   runs the tests on every push
@@ -212,7 +218,7 @@ The data source paths point to `C:\GitHub\Pharmaceutical-MES-Portfolio\powerbi\d
 
 | Built and working | Simulated | Planned, not built |
 |---|---|---|
-| Database rules, Streamlit app, OPC UA server and viewer, Power BI report, 18 automated tests | All data (products, lots, people); process signals (a Python simulator, not a real DeltaV DCS); sign-in (a user picker, not authentication) | Tulip front end ([design spec](docs/Tulip_App_Design.md)); a SCADA or MES client such as Ignition connected to the OPC UA server |
+| Database rules, Streamlit app, OPC UA server and viewer, Power BI report, 31 automated tests | All data (products, lots, people); process signals (a Python simulator, not a real DeltaV DCS); sign-in (a user picker, not authentication) | Tulip front end ([design spec](docs/Tulip_App_Design.md)); a SCADA or MES client such as Ignition connected to the OPC UA server |
 
 This is a demonstration application, not a validated GxP system. It shows 21 CFR Part 11-style data-integrity concepts; it is not a compliant system.
 

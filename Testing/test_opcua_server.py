@@ -35,3 +35,29 @@ def test_tags_are_published_and_excursion_breaches_limit():
     for tag, (_, _, lo, hi, _, _) in simulator.TAGS.items():
         assert lo <= readings[tag] <= hi, (tag, readings[tag])
     assert hot > simulator.TAGS[opcua_server.EXCURSION_TAG][3]  # above the 70 degC alarm limit
+
+
+async def _log_excursion(batch_no):
+    args = types.SimpleNamespace(host="127.0.0.1", port=PORT + 1, log_batch=batch_no, log_every=1)
+    task = asyncio.create_task(opcua_server.run(args))
+    await asyncio.sleep(2)
+    try:
+        async with Client(f"opc.tcp://127.0.0.1:{PORT + 1}/pharma-mes/") as client:
+            idx = await client.get_namespace_index(opcua_server.NAMESPACE)
+            await client.get_node(ua.NodeId("SIM/Excursion", idx)).write_value(True)
+            await asyncio.sleep(3)
+            await client.get_node(ua.NodeId("SIM/Excursion", idx)).write_value(False)
+    finally:
+        task.cancel()
+        await asyncio.gather(task, return_exceptions=True)
+
+
+def test_logged_excursion_raises_a_deviation_on_the_batch(conn, new_batch, monkeypatch):
+    import db
+    monkeypatch.setattr(db, "connect", lambda *a, **k: conn)  # log to the test database
+    batch_no = conn.execute("SELECT batch_no FROM batches WHERE batch_id = %s", (new_batch,)).fetchone()[0]
+    asyncio.run(_log_excursion(batch_no))
+    assert conn.execute("SELECT count(*) FROM process_signals WHERE batch_id = %s", (new_batch,)).fetchone()[0] > 0
+    devs = conn.execute("SELECT description FROM deviations WHERE batch_id = %s AND source = 'PROCESS_SIGNAL'",
+                        (new_batch,)).fetchall()
+    assert len(devs) == 1 and devs[0][0].startswith(opcua_server.EXCURSION_TAG)
