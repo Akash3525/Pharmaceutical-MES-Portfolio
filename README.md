@@ -120,6 +120,12 @@ time          GRAN-101/TIC-101/PV.CV    GRAN-101/SIC-102/PV.CV     FBD-201/TIC-2
 
 The server uses no encryption or login and listens only on this computer. It is a learning simulation, not a connection to a real DCS.
 
+**Windows: "running scripts is disabled"** when activating the virtual environment. Either run this once:
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+```
+or skip activation and call the environment's Python directly, for example `.\.venv\Scripts\python.exe Pharmaceutical_MES/opcua_server.py`. If you run plain `python` without activating, you'll get `No module named ...` errors.
+
 **Windows note:** if the `psycopg-binary` DLL is blocked (for example by Smart App Control), set `PSYCOPG_IMPL=python` in `.env`. `db.py` then uses `libpq.dll` from the local PostgreSQL install.
 
 ## Power BI dashboard
