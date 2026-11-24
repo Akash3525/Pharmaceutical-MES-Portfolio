@@ -1,14 +1,12 @@
 # Pharmaceutical MES Portfolio
 
-Simulated pharmaceutical MES and electronic batch record system (Python, Streamlit, PostgreSQL) with audit trail, deviation handling and QA review. Learning project, not a validated GxP system.
+[![tests](https://github.com/Akash3525/Pharmaceutical-MES-Portfolio/actions/workflows/tests.yml/badge.svg)](https://github.com/Akash3525/Pharmaceutical-MES-Portfolio/actions/workflows/tests.yml)
 
-
+A simulated pharmaceutical MES and electronic batch record in which **PostgreSQL enforces the GMP rules**: dispensing, deviations, audit trail, QA e-signatures and genealogy. Built with Python, Streamlit, PostgreSQL, OPC UA and Power BI. Learning project on fictional data, not a validated GxP system.
 
 https://github.com/user-attachments/assets/fe2c01af-deb1-4a7b-ab92-f02594fdf1de
 
-
-
-> All products, lots, suppliers and people are fictional. Process signals come from a Python simulator, published over OPC UA by a local Python server, not from a real DCS.
+> Related project: [SAP PP ↔ MES Integration & Data Validation](https://github.com/Akash3525/SAP-MES-Integration-Validation-), SQL reconciliation of simulated ERP and shop-floor data.
 
 ## Highlights
 
@@ -23,6 +21,34 @@ https://github.com/user-attachments/assets/fe2c01af-deb1-4a7b-ab92-f02594fdf1de
 | **Signatures** | Only QA can sign. Nobody can sign a batch they dispensed, verified or executed. Open deviations block release, and rejecting a batch requires a reason. |
 | **Traceability** | Material genealogy view traces a lot forward to batches, or a batch back to its lots. |
 
+## Architecture
+
+```mermaid
+flowchart LR
+    U["Operator · Supervisor · QA<br/>(simulated sign-in)"] --> A["Streamlit MES app<br/>8 pages"]
+    A -- "writes with user + reason<br/>per transaction" --> DB[("PostgreSQL<br/>GMP triggers · batch records<br/>deviations · audit trail")]
+    O["opcua_server.py<br/>DeltaV-style tags over OPC UA"] -- "process_signals" --> DB
+    O -. "live tags" .-> V["opcua_viewer.py<br/>or any OPC UA client"]
+    DB -- "reporting views" --> E["export_powerbi.py<br/>CSV"] --> P["Power BI report<br/>3 pages"]
+    T["pytest · 18 tests"] --> DB
+    TU["Tulip app<br/>(planned, not built)"] -.-> DB
+```
+
+Batch lifecycle. Every status change is made by a database trigger, never by the app:
+
+```mermaid
+stateDiagram-v2
+    direction LR
+    [*] --> CREATED
+    CREATED --> DISPENSING: first dispense
+    DISPENSING --> IN_PROGRESS: first step
+    IN_PROGRESS --> COMPLETED: last step
+    COMPLETED --> RELEASED: QA signs RELEASE (no open deviations)
+    COMPLETED --> REJECTED: QA signs REJECT (with a reason)
+```
+
+More detail: [docs/Architecture.md](docs/Architecture.md), with the rule map, session context and design decisions.
+
 ## The app (8 pages)
 
 | Page | What it does |
@@ -33,10 +59,20 @@ https://github.com/user-attachments/assets/fe2c01af-deb1-4a7b-ab92-f02594fdf1de
 | Step Execution | Guided steps with limits, plus corrections that require a reason |
 | Review by Exception | QA sees only deviations, changed records and alarms, then closes deviations and signs |
 | Traceability | Forward and backward genealogy |
-| Process Signals | Simulated DeltaV-style tag trends, with a button to generate data and an optional excursion |
+| Process Signals | DeltaV-style tag trends, with alarms marked |
 | Audit Trail | Filterable, append-only log with old and new JSON |
 
 The **"Signed in as"** picker simulates login so you can switch between operator, supervisor and QA. It is not real authentication.
+
+### Screenshots
+
+| | |
+|---|---|
+| **Batch Overview**<br/>![Batch Overview](docs/img/app_batch_overview.png) | **Create Batch**<br/>![Create Batch](docs/img/app_create_batch.png) |
+| **Dispensing**: target, tolerance, FEFO lot, second-person verifier<br/>![Dispensing](docs/img/app_dispensing.png) | **Step Execution**: limits shown, out-of-limit raises a deviation<br/>![Step Execution](docs/img/app_step_execution.png) |
+| **Review by Exception**: an open deviation and a corrected record<br/>![Review by Exception](docs/img/app_review_by_exception.png) | **Release refused by the database**: open deviation<br/>![Release refused](docs/img/app_release_rejected.png) |
+| **Process Signals**: dryer temperature excursion above 70 °C<br/>![Process Signals](docs/img/app_process_signals.png) | **Traceability**: one lot traced to every batch<br/>![Traceability](docs/img/app_traceability.png) |
+| **Audit Trail**: append-only, old and new values<br/>![Audit Trail](docs/img/app_audit_trail.png) | |
 
 ## Sample data
 
@@ -52,27 +88,44 @@ The **"Signed in as"** picker simulates login so you can switch between operator
 
 The lots include a quarantined, a rejected and an expired lot, so you can watch the database refuse them.
 
+## Tests
+
+**18 passing**: 17 GMP rule tests that hit the database directly, plus 1 OPC UA end-to-end test. They run automatically on every push (GitHub Actions, PostgreSQL 17).
+
+```
+pytest -v
+...
+Testing/test_gmp_rules.py::test_open_deviation_blocks_release_until_closed PASSED
+Testing/test_gmp_rules.py::test_rule_violations_are_database_errors_not_app_checks PASSED
+Testing/test_opcua_server.py::test_tags_are_published_and_excursion_breaches_limit PASSED
+============================= 18 passed in 7.04s ==============================
+```
+
+Full list, what each test proves and a worked deviation example: [docs/Testing.md](docs/Testing.md).
+
 ## Project structure
 
 ```
 Pharmaceutical_MES/
-  schema.sql     tables, GMP triggers, views
-  app.py         Streamlit UI (8 pages)
-  mes.py         thin write helpers shared by app, seed and tests
-  seed.py        creates the database and loads the sample data
-  simulator.py   DeltaV-style process signal simulator
-  opcua_server.py  OPC UA server publishing the simulated tags
-  opcua_viewer.py  OPC UA client printing live tag values
+  schema.sql         tables, GMP triggers, views
+  app.py             Streamlit UI (8 pages)
+  mes.py             thin write helpers shared by app, seed and tests
+  seed.py            creates the database and loads the sample data
+  simulator.py       DeltaV-style process signal simulator
+  opcua_server.py    OPC UA server publishing the simulated tags
+  opcua_viewer.py    OPC UA client printing live tag values
   export_powerbi.py  exports the reporting views to powerbi/data/*.csv
-  db.py          connection settings (MES_DB_* variables)
-powerbi/         Power BI report (.pbix), Power BI Project (.pbip) and CSV data
+  db.py              connection settings (MES_DB_* variables)
 Testing/
-  test_gmp_rules.py   17 tests, one or more per rule
-  test_opcua_server.py  OPC UA server test (reads tags, triggers an excursion)
+  test_gmp_rules.py     17 tests, one or more per GMP rule
+  test_opcua_server.py  1 test: reads the OPC UA tags and triggers an excursion
+powerbi/             Power BI report (.pbix), Power BI Project (.pbip) and CSV data
 docs/
-  Architecture.md     rule map, batch lifecycle, design decisions
-  Tulip_App_Design.md design spec (not built)
-  PowerBI_Guide.md    dashboard measures and layout
+  Architecture.md      rule map, batch lifecycle, design decisions
+  Testing.md           what the tests prove, latest results
+  Tulip_App_Design.md  design spec for a Tulip front end (planned)
+  PowerBI_Guide.md     dashboard measures and layout
+.github/workflows/tests.yml   runs the tests on every push
 ```
 
 ## Run it
@@ -116,7 +169,7 @@ python Pharmaceutical_MES/opcua_viewer.py --excursion on
 python Pharmaceutical_MES/opcua_viewer.py --excursion off
 ```
 
-To also write the values into the batch record every 60 s, start the server with `--log-batch PCM-500-0007`. An excursion then raises a deviation through the same database trigger as everything else.
+To also write the values into the batch record, start the server with `--log-batch PCM-500-0007` (every 60 s by default). An excursion then raises a deviation through the same database trigger as everything else.
 
 ```
 time          GRAN-101/TIC-101/PV.CV    GRAN-101/SIC-102/PV.CV     FBD-201/TIC-201/PV.CV      FBD-201/MT-202/PV.CV
@@ -124,7 +177,7 @@ time          GRAN-101/TIC-101/PV.CV    GRAN-101/SIC-102/PV.CV     FBD-201/TIC-2
 10:56:19           32.68 degC               200.25 rpm                 74.77 degC  ALARM         23.01 %RH
 ```
 
-The server uses no encryption or login and listens only on this computer. It is a learning simulation, not a connection to a real DCS.
+The server uses no encryption or login and listens only on this computer.
 
 **Windows: "running scripts is disabled"** when activating the virtual environment. Either run this once:
 ```powershell
@@ -155,11 +208,19 @@ Then click **Refresh** in Power BI.
 
 The data source paths point to `C:\GitHub\Pharmaceutical-MES-Portfolio\powerbi\data\`. If you clone the repository somewhere else, change them in **Transform data → Data source settings**.
 
-## Not built yet
+## Simulation and limitations
 
-- **Tulip app**: design spec only, see [Tulip App Design](docs/Tulip_App_Design.md). The status is *Planned*.
-- **SCADA/MES client for the OPC UA server** (for example Ignition): not connected yet. The tags can be viewed with the included viewer or any OPC UA client, such as UaExpert.
+| Built and working | Simulated | Planned, not built |
+|---|---|---|
+| Database rules, Streamlit app, OPC UA server and viewer, Power BI report, 18 automated tests | All data (products, lots, people); process signals (a Python simulator, not a real DeltaV DCS); sign-in (a user picker, not authentication) | Tulip front end ([design spec](docs/Tulip_App_Design.md)); a SCADA or MES client such as Ignition connected to the OPC UA server |
 
-## Skills demonstrated
+This is a demonstration application, not a validated GxP system. It shows 21 CFR Part 11-style data-integrity concepts; it is not a compliant system.
 
-PostgreSQL (PL/pgSQL triggers, constraints, JSONB audit, views) · Python · Streamlit · pytest · GMP and data-integrity concepts (ALCOA+, 21 CFR Part 11-style audit trail and e-signatures, second-person verification, review by exception, genealogy) · MES and ISA-88 batch concepts (master recipe, dispensing, step execution, disposition)
+## What this project demonstrates
+
+- **MES and ISA-88 batch concepts:** master recipe, dispensing against BOM tolerances, guided step execution, batch disposition.
+- **GMP data integrity (ALCOA+):** attributable, append-only audit trail, reason for change, second-person verification, independent QA review.
+- **Review by exception:** QA works from a list of deviations, changed records and alarms instead of reading every entry.
+- **Traceability for recalls and investigations:** forward and backward genealogy.
+- **Shop-floor connectivity:** process tags published over OPC UA, alarms turned into deviations.
+- **Engineering practice:** rules enforced in PostgreSQL (PL/pgSQL triggers, constraints, JSONB audit, views), automated tests in CI, Power BI reporting.

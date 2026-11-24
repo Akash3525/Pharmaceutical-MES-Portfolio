@@ -20,8 +20,8 @@ A test proves this by writing straight to the table with SQL, with no Python ser
  │  views: v_batch_progress · v_review_by_exception · v_genealogy        │
  └───────────────────────────────────────────────────────────────────────┘
         ▲                                                     │
-        │ simulator.py (DeltaV-style tag values)              ▼
-                                                      Power BI (not built)
+        │ opcua_server.py → process_signals                   ▼ export_powerbi.py (CSV)
+        │ (simulated DeltaV-style tags over OPC UA)       Power BI report (3 pages)
 ```
 
 ## Session context
